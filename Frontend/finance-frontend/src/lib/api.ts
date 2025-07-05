@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api/transactions";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export const getTransactions = () => axios.get(BASE_URL);
 export const addTransaction = (data: any) => axios.post(BASE_URL, data);
