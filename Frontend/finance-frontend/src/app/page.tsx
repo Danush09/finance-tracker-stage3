@@ -2,29 +2,19 @@
 
 import { useEffect, useState } from "react";
 import TransactionForm from "@/components/ui/TransactionForm";
-import {
-  getTransactions,
-  addTransaction,
-  deleteTransaction,
-} from "@/lib/api";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { getTransactions, addTransaction, deleteTransaction } from "@/lib/api";
+import { Transaction } from "@/types";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function Home() {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const fetchTransactions = async () => {
     const res = await getTransactions();
     setTransactions(res.data);
   };
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Transaction) => {
     await addTransaction(data);
     fetchTransactions();
   };
@@ -39,11 +29,8 @@ export default function Home() {
   }, []);
 
   const chartData = Object.values(
-    transactions.reduce((acc: any, tx: any) => {
-      const month = new Date(tx.date).toLocaleString("default", {
-        month: "short",
-        year: "numeric",
-      });
+    transactions.reduce((acc: Record<string, { month: string; total: number }>, tx: Transaction) => {
+      const month = new Date(tx.date).toLocaleString("default", { month: "short", year: "numeric" });
       acc[month] = acc[month] || { month, total: 0 };
       acc[month].total += tx.amount;
       return acc;
@@ -53,25 +40,16 @@ export default function Home() {
   return (
     <main className="container">
       <h1>Personal Finance Tracker</h1>
-
       <TransactionForm onSubmit={handleSubmit} />
-
       <h2>Transactions</h2>
       <ul className="space-y-2">
-        {transactions.map((tx: any) => (
+        {transactions.map((tx) => (
           <li key={tx._id} className="transaction-item">
             <div>
               <p className="transaction-description">{tx.description}</p>
-              <small className="transaction-meta">
-                {tx.date.slice(0, 10)} — ₹{tx.amount}
-              </small>
+              <small className="transaction-meta">{tx.date.slice(0, 10)} — ₹{tx.amount}</small>
             </div>
-            <button
-              onClick={() => handleDelete(tx._id)}
-              className="delete-button"
-            >
-              Delete
-            </button>
+            <button onClick={() => handleDelete(tx._id!)} className="delete-button">Delete</button>
           </li>
         ))}
       </ul>

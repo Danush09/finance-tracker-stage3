@@ -1,8 +1,8 @@
 import axios from "axios";
+import { Transaction } from "@/types";
 
-const BASE_URL = "http://localhost:5000/api/transactions";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-export const getTransactions = () => axios.get(BASE_URL);
-export const addTransaction = (data: any) => axios.post(BASE_URL, data);
-export const updateTransaction = (id: string, data: any) => axios.put(`${BASE_URL}/${id}`, data);
-export const deleteTransaction = (id: string) => axios.delete(`${BASE_URL}/${id}`);
+export const getTransactions = () => axios.get<Transaction[]>(`${BASE_URL}/transactions`);
+export const addTransaction = (data: Transaction) => axios.post(`${BASE_URL}/transactions`, data);
+export const deleteTransaction = (id: string) => axios.delete(`${BASE_URL}/transactions/${id}`);
