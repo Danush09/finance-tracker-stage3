@@ -1,4 +1,6 @@
 "use client";
+import SummaryCards from "@/components/ui/SummaryCards";
+import CategoryPieChart from "@/components/ui/PieChart";
 
 import { useEffect, useState } from "react";
 import TransactionForm from "@/components/ui/TransactionForm";
@@ -63,6 +65,12 @@ export default function Home() {
           <Bar dataKey="total" fill="#6366f1" />
         </BarChart>
       </ResponsiveContainer>
+
+      
+<SummaryCards transactions={transactions} />
+
+<h2 className="mt-8 font-semibold">Category Breakdown</h2>
+<CategoryPieChart transactions={transactions} />
     </main>
   );
 }
