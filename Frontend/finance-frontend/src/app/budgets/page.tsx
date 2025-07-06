@@ -11,7 +11,7 @@ import Link from "next/link";
 export default function BudgetPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
-  const [refreshKey, setRefreshKey] = useState(0);
+  //const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchTransactions = async () => {
