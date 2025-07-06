@@ -118,7 +118,7 @@ npm start
 ```bash
 cd Frontend/finance-frontend
 npm install
-# Create .env.local with NEXT_PUBLIC_API_BASE=http://localhost:5000
+# Create .env.local with NEXT_PUBLIC_API_BASE=http://localhost:5000/api
 npm run dev
 ```
 
