@@ -17,6 +17,12 @@ interface ChartData {
   remaining: number;
 }
 
+interface TooltipPayload {
+  payload: ChartData;
+  value: number;
+  dataKey: string;
+}
+
 export default function BudgetChart({ month, transactions }: BudgetChartProps) {
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,7 +86,7 @@ export default function BudgetChart({ month, transactions }: BudgetChartProps) {
   }
 
   // Custom Tooltip for Spent/Remaining
-  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] }) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: TooltipPayload[] }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
