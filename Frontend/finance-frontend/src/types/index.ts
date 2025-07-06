@@ -16,3 +16,10 @@ export interface Transaction {
   description: string;
   category: Category;
 }
+
+export interface Budget {
+  _id?: string;
+  category: Category;
+  amount: number;
+  month: string; // "YYYY-MM"
+}
