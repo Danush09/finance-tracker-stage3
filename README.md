@@ -1,4 +1,4 @@
-# Personal Finance Visualizer - Stage 3 Complete
+# Personal Finance Visualizer - Stage 3
 
 A comprehensive web application for tracking personal finances with advanced budgeting features.
 
