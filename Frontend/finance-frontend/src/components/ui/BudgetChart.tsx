@@ -80,7 +80,7 @@ export default function BudgetChart({ month, transactions }: BudgetChartProps) {
   }
 
   // Custom Tooltip for Spent/Remaining
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (

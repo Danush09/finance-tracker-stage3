@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Budget } from "@/types";
 import { getBudgets } from "@/lib/api";
 
@@ -13,7 +13,7 @@ export default function BudgetList({ selectedMonth }: BudgetListProps) {
   const [loading, setLoading] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(selectedMonth || new Date().toISOString().slice(0, 7));
 
-  const fetchBudgets = async () => {
+  const fetchBudgets = useCallback(async () => {
     try {
       setLoading(true);
       const response = await getBudgets(currentMonth);
@@ -23,11 +23,11 @@ export default function BudgetList({ selectedMonth }: BudgetListProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentMonth]);
 
   useEffect(() => {
     fetchBudgets();
-  }, [currentMonth]);
+  }, [fetchBudgets]);
 
   useEffect(() => {
     if (selectedMonth) {
