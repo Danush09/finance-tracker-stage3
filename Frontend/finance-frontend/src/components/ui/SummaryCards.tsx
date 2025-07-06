@@ -11,20 +11,16 @@ interface SummaryCardsProps {
 
 export default function SummaryCards({ transactions, selectedMonth }: SummaryCardsProps) {
   const [budgets, setBudgets] = useState<Budget[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const currentMonth = selectedMonth || new Date().toISOString().slice(0, 7);
 
   useEffect(() => {
     const fetchBudgets = async () => {
       try {
-        setLoading(true);
         const response = await getBudgets(currentMonth);
         setBudgets(response.data);
       } catch (error) {
         console.error("Failed to fetch budgets:", error);
-      } finally {
-        setLoading(false);
       }
     };
 

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Budget, Transaction, Category } from "@/types";
+import { Budget, Transaction } from "@/types";
 import { getBudgets } from "@/lib/api";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 interface BudgetChartProps {
   month: string;
@@ -79,6 +79,31 @@ export default function BudgetChart({ month, transactions }: BudgetChartProps) {
     );
   }
 
+  // Custom Tooltip for Spent/Remaining
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="p-3 bg-white rounded shadow border">
+          <div className="font-semibold mb-1">{data.category}</div>
+          <div>
+            <span className="font-medium">Spent: </span>
+            <span style={{ color: '#10b981', fontWeight: 600 }}>
+              ₹{data.actual.toLocaleString()}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Remaining: </span>
+            <span style={{ color: data.remaining >= 0 ? '#10b981' : '#ef4444', fontWeight: 600 }}>
+              ₹{data.remaining.toLocaleString()}
+            </span>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <h3 className="text-lg font-semibold mb-4">Budget vs Actual Spending - {month}</h3>
@@ -86,12 +111,7 @@ export default function BudgetChart({ month, transactions }: BudgetChartProps) {
         <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <XAxis dataKey="category" />
           <YAxis />
-          <Tooltip
-            formatter={(value: number, name: string) => [
-              `₹${value.toLocaleString()}`,
-              name === 'budget' ? 'Budget' : name === 'actual' ? 'Actual' : 'Remaining'
-            ]}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Legend />
           <Bar dataKey="budget" fill="#10b981" name="Budget" />
           <Bar dataKey="actual" fill="#ef4444" name="Actual" />

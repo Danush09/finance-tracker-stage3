@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 import { Budget } from "@/types";
 import { getBudgets } from "@/lib/api";
-import { Button } from "@/components/ui/button";
 
 interface BudgetListProps {
   selectedMonth?: string;
-  onBudgetUpdate?: () => void;
 }
 
-export default function BudgetList({ selectedMonth, onBudgetUpdate }: BudgetListProps) {
+export default function BudgetList({ selectedMonth }: BudgetListProps) {
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(selectedMonth || new Date().toISOString().slice(0, 7));

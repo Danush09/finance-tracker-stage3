@@ -11,7 +11,6 @@ import Link from "next/link";
 export default function BudgetPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
-  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -27,7 +26,7 @@ export default function BudgetPage() {
   }, []);
 
   const handleBudgetSaved = () => {
-    setRefreshKey(prev => prev + 1);
+    // No-op for now, can be used for refresh if needed
   };
 
   return (
@@ -55,7 +54,6 @@ export default function BudgetPage() {
         <div className="lg:col-span-1">
           <BudgetList
             selectedMonth={selectedMonth}
-            onBudgetUpdate={handleBudgetSaved}
           />
         </div>
 
