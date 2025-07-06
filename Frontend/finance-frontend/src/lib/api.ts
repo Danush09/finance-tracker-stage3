@@ -1,7 +1,10 @@
 import axios from "axios";
 import { Transaction, Budget } from "@/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5000";
+// Use deployed backend URL for production, localhost for development
+const BASE_URL = process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_API_BASE || "https://finance-tracker-stage3.onrender.com"
+    : "http://localhost:5000";
 
 export const getTransactions = () => axios.get<Transaction[]>(`${BASE_URL}/api/transactions`);
 export const addTransaction = (data: Transaction) => axios.post(`${BASE_URL}/api/transactions`, data);
